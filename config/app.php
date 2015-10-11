@@ -13,6 +13,7 @@ return [
     |
     */
 
+    // are we in debugging mode
     'debug' => env('APP_DEBUG', false),
 
     /*
@@ -26,7 +27,10 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    // default to localhost
+    //'url' => 'http://localhost',
+
+    'url' => env('APP_URL', 'http://foobooks.com'),
 
     /*
     |--------------------------------------------------------------------------
