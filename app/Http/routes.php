@@ -1,5 +1,8 @@
 <?php
 
+// indicate thaty you want to use the package
+//use Rych\Random\Random;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -18,7 +21,7 @@ Route::get('/', function () {
 // @ is what method
 
 Route::get('/books', 'BookController@getIndex');
-Route::get('/books/show/{title}', 'BookController@getShow');
+Route::get('/books/show/{title?}', 'BookController@getShow');
 Route::get('/books/create', 'BookController@getCreate');
 Route::post('/books/create', 'BookController@postCreate');
 
@@ -34,5 +37,11 @@ Route::get('/practice', function() {
 
 Route::get('/practice', function() {
 
-	echo config('app.url');
+	// full namespace
+	$random = new Random();
+
+	// Generate a 16-byte string of random raw data
+	return $random->getRandomString(16);
+
+
 });

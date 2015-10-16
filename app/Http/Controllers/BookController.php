@@ -2,8 +2,12 @@
 
 // namespace: All controller need to set namespace
 // need to use global controllers
+// if we use the App namespace, go into app folder
+// prevents us from name conflicts - knows that it is defined within the namespace
+// set namespace for BookController
 namespace App\Http\Controllers;
 
+// use it for a particular class that we are extending 
 use App\Http\Controllers\Controller;
 
 class BookController extends Controller {
@@ -22,8 +26,11 @@ class BookController extends Controller {
     /**
      * Responds to requests to GET /books/show/{id}
      */
-    public function getShow($title) {
-        return 'Show book: '.$title;
+    public function getShow($title = null) {
+        //return 'Show book: '.$title;
+
+        // resources/views/books/show.blade.php
+        return view('books.show')->with('title', $title);
     }
 
     /**
@@ -32,12 +39,7 @@ class BookController extends Controller {
     public function getCreate() {
         //return 'Form to create a new book';
 
-        $view = '<form method="POST" action="/books/create">';
-        $view .= csrf_field();
-        $view .= '<input type="text" name="title">';
-        $view .= '<input type="submit">';
-        $view .= '<form>';
-        return $view;
+        return view('books.create');
     }
 
     /**
