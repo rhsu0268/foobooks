@@ -18,10 +18,26 @@ such as a page specific styesheets.
 
 
 @section('content')
+
+	@if(count($errors) > 0)
+	    <ul>
+	        @foreach ($errors->all() as $error)
+	            <li>{{ $error }}</li>
+	        @endforeach
+	    </ul>
+	@endif
 	<form method="POST" action="/books/create">
-	    <input type="text" name="title">
-	    <input type="submit">
-    <form>
+
+		<input type='hidden' value='{{ csrf_token() }}' name='_token'>
+		<fieldset>
+			<label for='title'>Title:</label>
+	    	<input type="text" id='title' name='title'>
+		</fieldset>
+
+		<br>
+
+		<button type="submit" class="btn btn-primary">Add Book</button>
+	<form>
 @stop
 
 {{--

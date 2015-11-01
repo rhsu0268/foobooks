@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
 
 // use it for a particular class that we are extending 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class BookController extends Controller {
 
@@ -45,7 +46,19 @@ class BookController extends Controller {
     /**
      * Responds to requests to POST /books/create
      */
-    public function postCreate() {
-        return 'Process adding new book' . $_POST['title'];
+    public function postCreate(Request $request) {
+
+        // validation 
+
+        $this->validate(
+            $request, 
+            ['title' => 'required|min:5'
+            ]
+        );
+
+        // Code here to enter into the database
+
+        // Confirm book was entered: 
+        return 'Process adding new book' . $request->input('title');
     }
 }
