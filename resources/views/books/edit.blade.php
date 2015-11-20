@@ -1,25 +1,13 @@
 @extends('layouts.master')
 
-{{-- define a section called title
- show book
- --}}
 @section('title')
-    Create Book
-@stop
-
-{{--
-This `head` section will be yielded right before the closing </head> tag.
-Use it to add specific things that *this* View needs in the head,
-such as a page specific styesheets.
---}}
-@section('head')
-    <link href="/css/books/create.css" type='text/css' rel='stylesheet'>
+    Edit Book
 @stop
 
 
 @section('content')
 
-    <h1>Add a new book</h1>
+    <h1>Edit</h1>
 
     @if(count($errors) > 0)
     <ul>
@@ -29,9 +17,11 @@ such as a page specific styesheets.
     </ul>
     @endif
 
-    <form method='POST' action='/books/create'>
+    <form method='POST' action='/books/edit'>
 
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
+
+        <input type='hidden' name='id' value='{{$book->id}}'>
 
         <fieldset>
             <label>* Title:</label>
@@ -39,7 +29,7 @@ such as a page specific styesheets.
                 type='text'
                 id='title'
                 name='title'
-                value='{{ old('title','Green Eggs & Ham') }}'
+                value='{{$book->title}}'
             >
         </fieldset>
 
@@ -49,7 +39,7 @@ such as a page specific styesheets.
                 type='text'
                 id='author'
                 name="author"
-                value='{{ old('author','Dr. Seuss') }}'
+                value='{{$book->author}}'
             >
         </fieldset>
 
@@ -59,7 +49,7 @@ such as a page specific styesheets.
                 type='text'
                 id='cover'
                 name="cover"
-                value='{{ old('cover','http://prodimage.images-bn.com/pimages/9780394800165_p0_v4_s118x184.jpg') }}'
+                value='{{$book->cover}}'
                 >
         </fieldset>
 
@@ -69,7 +59,7 @@ such as a page specific styesheets.
                 type='text'
                 id='published'
                 name="published"
-                value='{{ old('published','1960') }}'
+                value='{{$book->published}}'
                 >
         </fieldset>
 
@@ -79,21 +69,12 @@ such as a page specific styesheets.
                 type='text'
                 id='purchase_link'
                 name='purchase_link'
-                value='{{ old('purchase_link','http://www.barnesandnoble.com/w/green-eggs-and-ham-dr-seuss/1100170349?ean=9780394800165') }}'
+                value='{{$book->purchase_link}}'
                 >
         </fieldset>
 
         <br>
-        <button type="submit" class="btn btn-primary">Add book</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
     </form>
 
-@stop
-
-{{--
-This `body` section will be yielded right before the closing </body> tag.
-Use it to add specific things that *this* View needs at the end of the body,
-such as a page specific JavaScript files.
---}}
-@section('body')
-    <script src="/js/books/create.js"></script>
 @stop

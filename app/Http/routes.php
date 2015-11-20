@@ -14,9 +14,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'BookController@getIndex');
 
 // @ is what method
 
@@ -25,6 +23,8 @@ Route::get('/books/show/{title?}', 'BookController@getShow');
 Route::get('/books/create', 'BookController@getCreate');
 Route::post('/books/create', 'BookController@postCreate');
 
+Route::get('/books/edit/{id?}', 'BookController@getEdit');
+Route::post('/books/edit', 'BookController@postEdit');
 
 //Route::controller('/books', 'BookController');
 /*
@@ -34,7 +34,7 @@ Route::get('/practice', function() {
 	echo App::environment();
 });
 */
-
+/*
 Route::get('/practice', function() {
 
 	// full namespace
@@ -44,9 +44,22 @@ Route::get('/practice', function() {
 	return $random->getRandomString(16);
 
 
-});
+*/
+Route::controller('/practice', 'PracticeController');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+/*----------------------------------------------------
+Debugging/Local/Misc
+-----------------------------------------------------*/
+if(App::environment('local')) {
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+    Route::get('/drop', function() {
+        DB::statement('DROP database foobooks');
+        DB::statement('CREATE database foobooks');
+        return 'Dropped foobooks; created foobooks.';
+    });
+};
 
 Route::get('/debug', function() {
 
