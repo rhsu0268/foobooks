@@ -37,8 +37,15 @@
 
     <nav>
         <ul>
-            <li><a href='/'>Home</a></li>
-            <li><a href='/books/create'>Add a book</a></li>
+            @if(Auth::check())
+                <li><a href='/'>Home</a></li>
+                <li><a href='/books/create'>Add a book</a></li>
+                <li><a href='/logout'>Log out</a></li>
+            @else
+                <li><a href='/'>Home</a></li>
+                <li><a href='/login'>Log in</a></li>
+                <li><a href='/register'>Register</a></li>
+            @endif
         </ul>
     </nav>
 

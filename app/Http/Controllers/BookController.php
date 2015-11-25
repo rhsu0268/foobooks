@@ -36,13 +36,22 @@ class BookController extends Controller {
 
         $book = \App\Book::find($id);
 
+        $authors = \App\Author::orderby('last_name', 'ASC')->get();
+
+        $authors_for_dropdown = [];
+        foreach($authors as $author)
+        {
+            $authors_for_dropdown[$author->id] = $author->last_name . ', ' . $author->first_name;
+        }
+        //dump($authors_for_dropdown);
+
         if (is_null($book))
         {
             \Session::flash('flash_message', 'Book not found.');
             //return redirect('\books');
         }
 
-        return view('books.edit')->with('book', $book);
+        return view('books.edit')->with(['book'=>$book, 'authors_for_dropdown'=>$authors_for_dropdown]);
 
     }
 
@@ -58,7 +67,7 @@ class BookController extends Controller {
         $book = \App\Book::find($request->id);
 
         $book->title = $request->title;
-        $book->author = $request->author;
+        $book->author_id = $request->author;
         $book->cover = $request->cover;
         $book->published = $request->published;
         $book->purchase_link = $request->purchase_link;

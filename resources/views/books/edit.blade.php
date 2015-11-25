@@ -9,21 +9,13 @@
 
     <h1>Edit</h1>
 
-    @if(count($errors) > 0)
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-    @endif
-
     <form method='POST' action='/books/edit'>
 
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
 
-        <input type='hidden' name='id' value='{{$book->id}}'>
+        <input type='hidden' name='id' value='{{ $book->id }}'>
 
-        <fieldset>
+        <div class='form-group'>
             <label>* Title:</label>
             <input
                 type='text'
@@ -31,19 +23,37 @@
                 name='title'
                 value='{{$book->title}}'
             >
-        </fieldset>
+        </div>
 
-        <fieldset>
-            <label for='title'>* Author:</label>
-            <input
-                type='text'
-                id='author'
-                name="author"
-                value='{{$book->author}}'
-            >
-        </fieldset>
+        <div class='form-group'>
+            <label for='author'>* Author:</label>
+            <select name='author' id='author'>
 
-        <fieldset>
+                @foreach($authors_for_dropdown as $author_id => $author_name)
+
+
+                    <?php
+                        /*
+                        if ($author_id == $book->author->id)
+                        {
+                            $selected = 'selected';
+                        }
+                        else
+                        {
+                            $selected = '';
+                        }
+                        */
+                    ?>
+
+                    {{ $selected = ($author_id == $book->author->id) ? 'selected' : ''}}
+                    <option value='{{ $author_id }}' {{ $selected }}> {{ $author_name }} </option>
+
+                @endforeach
+
+            </select>
+        </div>
+
+        <div class='form-group'>
             <label for='title'>* Cover (URL):</label>
             <input
                 type='text'
@@ -51,9 +61,9 @@
                 name="cover"
                 value='{{$book->cover}}'
                 >
-        </fieldset>
+        </div>
 
-        <fieldset>
+        <div class='form-group'>
             <label for='Published'>Published (YYYY):</label>
             <input
                 type='text'
@@ -61,9 +71,9 @@
                 name="published"
                 value='{{$book->published}}'
                 >
-        </fieldset>
+        </div>
 
-        <fieldset>
+        <div class='form-group'>
             <label for='title'>* URL To purchase this book:</label>
             <input
                 type='text'
@@ -71,7 +81,7 @@
                 name='purchase_link'
                 value='{{$book->purchase_link}}'
                 >
-        </fieldset>
+        </div>
 
         <br>
         <button type="submit" class="btn btn-primary">Save changes</button>

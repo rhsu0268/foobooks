@@ -13,6 +13,41 @@ use Illuminate\Http\Request;
 
 class PracticeController extends Controller {
 
+    function getExample13()
+    {
+        // eager load the tags
+        $books = \App\Book::with('tags')->get();
+
+        foreach($books as $book) {
+            echo '<br>'.$book->title.' is tagged with: ';
+            foreach($book->tags as $tag) {
+                echo $tag->name.' ';
+            }
+        }
+    }
+
+    function getExample12()
+    {
+        $book = \App\Book::where('title','=','The Great Gatsby')->first();
+
+        echo $book->title.' is tagged with: ';
+        foreach($book->tags as $tag) {
+            echo $tag->name.' ';
+        }
+    }
+
+    function getExample11()
+    {
+        # Eager load the author with the book
+        $books = \App\Book::with('author')->get();
+
+        foreach($books as $book) {
+            echo $book->author->first_name.' '.$book->author->last_name.' wrote '.$book->title.'<br>';
+        }
+
+        //dump($books->toArray());
+    }
+
     function getExample10()
     {
 
@@ -29,7 +64,12 @@ class PracticeController extends Controller {
         echo $book->author->first_name;
         */
 
-        
+        $book = \App\Book::first();
+        $author = $book->author;
+
+        echo $book->title . ' was written by ' . $author->first_name . ' ' . $author->last_name;
+
+        dump($book->toArray());
         return 'Example 10';
     }
 
