@@ -36,13 +36,10 @@ class BookController extends Controller {
 
         $book = \App\Book::find($id);
 
-        $authors = \App\Author::orderby('last_name', 'ASC')->get();
+        $authorModel = new \App\Author();
 
-        $authors_for_dropdown = [];
-        foreach($authors as $author)
-        {
-            $authors_for_dropdown[$author->id] = $author->last_name . ', ' . $author->first_name;
-        }
+        $authors_for_dropdown = $authorModel->getAuthorsForDropdown();
+
         //dump($authors_for_dropdown);
 
         if (is_null($book))
@@ -97,7 +94,10 @@ class BookController extends Controller {
     public function getCreate() {
         //return 'Form to create a new book';
 
-        return view('books.create');
+        $authorModel = new \App\Author();
+        $authors_for_dropdown = $authorModel->getAuthorsForDropdown();
+
+        return view('books.create')->with('authors_for_dropdown', $authors_for_dropdown);
     }
 
     /**
@@ -111,7 +111,6 @@ class BookController extends Controller {
             $request,
             [
                 'title' => 'required|min:5',
-                'author' => 'required|min:5',
                 'cover' => 'required|url',
                 'published' => 'required|min:4'
             ]
@@ -122,7 +121,8 @@ class BookController extends Controller {
         // mass-assignment
         $book = new \App\Book();
         $book->title = $request->title;
-        $book->author = $request->author;
+        //$book->author = $request->author;
+        $book->author_id = $request->author;
         $book->cover = $request->cover;
         $book->published = $request->published;
         $book->purchase_link = $request->purchase_link;

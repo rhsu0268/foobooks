@@ -40,7 +40,7 @@
             @if(Auth::check())
                 <li><a href='/'>Home</a></li>
                 <li><a href='/books/create'>Add a book</a></li>
-                <li><a href='/logout'>Log out</a></li>
+                <li><a href='/logout'>Log out {{ $user->name }}</a></li>
             @else
                 <li><a href='/'>Home</a></li>
                 <li><a href='/login'>Log in</a></li>

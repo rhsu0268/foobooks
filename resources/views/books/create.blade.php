@@ -33,7 +33,7 @@ such as a page specific styesheets.
 
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
 
-        <fieldset>
+        <div class="form-group">
             <label>* Title:</label>
             <input
                 type='text'
@@ -41,19 +41,18 @@ such as a page specific styesheets.
                 name='title'
                 value='{{ old('title','Green Eggs & Ham') }}'
             >
-        </fieldset>
+        </div>
 
-        <fieldset>
+        <div class="form-group">
             <label for='title'>* Author:</label>
-            <input
-                type='text'
-                id='author'
-                name="author"
-                value='{{ old('author','Dr. Seuss') }}'
-            >
-        </fieldset>
+            <select name='author' id='author'>
+               @foreach($authors_for_dropdown as $author_id => $author_name)
+                   <option value='{{ $author_id }}'> {{ $author_name }} </option>
+               @endforeach
+           </select>
+        </div>
 
-        <fieldset>
+        <div class="form-group">
             <label for='title'>* Cover (URL):</label>
             <input
                 type='text'
@@ -61,9 +60,9 @@ such as a page specific styesheets.
                 name="cover"
                 value='{{ old('cover','http://prodimage.images-bn.com/pimages/9780394800165_p0_v4_s118x184.jpg') }}'
                 >
-        </fieldset>
+        </div>
 
-        <fieldset>
+        <div class="form-group">
             <label for='Published'>Published (YYYY):</label>
             <input
                 type='text'
@@ -71,9 +70,9 @@ such as a page specific styesheets.
                 name="published"
                 value='{{ old('published','1960') }}'
                 >
-        </fieldset>
+        </div>
 
-        <fieldset>
+        <div class="form-group">
             <label for='title'>* URL To purchase this book:</label>
             <input
                 type='text'
@@ -81,7 +80,7 @@ such as a page specific styesheets.
                 name='purchase_link'
                 value='{{ old('purchase_link','http://www.barnesandnoble.com/w/green-eggs-and-ham-dr-seuss/1100170349?ean=9780394800165') }}'
                 >
-        </fieldset>
+        </div>
 
         <br>
         <button type="submit" class="btn btn-primary">Add book</button>

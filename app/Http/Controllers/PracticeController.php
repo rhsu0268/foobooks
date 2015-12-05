@@ -11,7 +11,20 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+// include it if not using \
+use Auth;
+
 class PracticeController extends Controller {
+
+    function getExample14()
+    {
+
+        dump(\Auth::check());
+        dump(Auth::check());
+        dump(auth()->check());
+
+
+    }
 
     function getExample13()
     {
