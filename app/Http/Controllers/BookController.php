@@ -22,7 +22,7 @@ class BookController extends Controller {
     */
     public function getIndex() {
 
-        $books = \App\Book::orderBy('id', 'DESC')->get();
+        $books = \App\Book::where('user_id', '=', \Auth::id())->orderBy('id', 'DESC')->get();
 
         //dump($books->toArray());
 
