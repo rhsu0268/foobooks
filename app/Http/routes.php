@@ -46,14 +46,13 @@ Route::get('/confirm-login-worked', function() {
 
 });
 
-Route::get('/', 'BookController@getIndex');
+Route::get('/', 'WelcomeController@getIndex');
 
 
 
 // @ is what method
 
-Route::get('/books', 'BookController@getIndex');
-Route::get('/books/show/{title?}', 'BookController@getShow');
+
 //Route::get('/books/create', 'BookController@getCreate');
 //Route::post('/books/create', 'BookController@postCreate');
 
@@ -64,6 +63,9 @@ Route::get('/books/create', [
 ]);
 */
 Route::group(['middleware' => 'auth'], function() {
+
+    Route::get('/books', 'BookController@getIndex');
+    Route::get('/books/show/{title?}', 'BookController@getShow');
 
     Route::get('/books/create', 'BookController@getCreate');
     Route::post('/books/create', 'BookController@postCreate');

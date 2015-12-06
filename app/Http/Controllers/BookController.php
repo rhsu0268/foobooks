@@ -34,11 +34,27 @@ class BookController extends Controller {
     */
     public function getEdit($id = null) {
 
-        $book = \App\Book::find($id);
+        // get book to edit
+        $book = \App\Book::with('tags')->find($id);
 
         $authorModel = new \App\Author();
 
         $authors_for_dropdown = $authorModel->getAuthorsForDropdown();
+
+
+        // get all the tags
+        $tagModel = new \App\Tag();
+        $tags_for_checkboxes = $tagModel->getTagsForCheckboxes();
+        dump($tags_for_checkboxes);
+
+        // get the tags for this book
+        $tags_for_this_book = [];
+        foreach($book->tags as $tag)
+        {
+            $tags_for_this_book[] = $tag->name;
+        }
+        dump($tags_for_this_book);
+
 
         //dump($authors_for_dropdown);
 
@@ -48,7 +64,12 @@ class BookController extends Controller {
             //return redirect('\books');
         }
 
-        return view('books.edit')->with(['book'=>$book, 'authors_for_dropdown'=>$authors_for_dropdown]);
+        return view('books.edit')->with([
+            'book'=>$book,
+            'authors_for_dropdown'=> $authors_for_dropdown,
+            'tags_for_checkboxes' => $tags_for_checkboxes,
+            'tags_for_this_book' => $tags_for_this_book
+        ]);
 
     }
 
@@ -123,6 +144,7 @@ class BookController extends Controller {
         $book->title = $request->title;
         //$book->author = $request->author;
         $book->author_id = $request->author;
+        $book->user_id = \Auth::id();
         $book->cover = $request->cover;
         $book->published = $request->published;
         $book->purchase_link = $request->purchase_link;

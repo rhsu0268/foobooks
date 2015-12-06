@@ -83,6 +83,14 @@
                 >
         </div>
 
+        <div class='form-group'>
+            <label for='tags'>Tags</label>
+            @foreach($tags_for_checkboxes as $tag_id => $tag_name)
+                <?php $checked = (in_array($tag_name, $tags_for_this_book)) ? 'CHECKED' : '' ?>
+                <input {{ $checked }} type='checkbox' name='tags[]' value='{{$tag_id}}'> {{ $tag_name }}<br>
+            @endforeach
+        </div>
+
         <br>
         <button type="submit" class="btn btn-primary">Save changes</button>
     </form>
