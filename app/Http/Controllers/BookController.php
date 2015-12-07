@@ -45,7 +45,7 @@ class BookController extends Controller {
         // get all the tags
         $tagModel = new \App\Tag();
         $tags_for_checkboxes = $tagModel->getTagsForCheckboxes();
-        dump($tags_for_checkboxes);
+        //dump($tags_for_checkboxes);
 
         // get the tags for this book
         $tags_for_this_book = [];
@@ -53,7 +53,7 @@ class BookController extends Controller {
         {
             $tags_for_this_book[] = $tag->name;
         }
-        dump($tags_for_this_book);
+        //dump($tags_for_this_book);
 
 
         //dump($authors_for_dropdown);
@@ -91,6 +91,14 @@ class BookController extends Controller {
         $book->purchase_link = $request->purchase_link;
 
         $book->save();
+
+        if($request->tags) {
+            $tags = $request->tags;
+        }
+        else {
+            $tags = [];
+        }
+        $book->tags()->sync($tags);
 
         \Session::flash('flash_message', 'Your book was updated.');
         return redirect('\books/edit/' . $request->id);
@@ -158,6 +166,38 @@ class BookController extends Controller {
         \Session::flash('flash_message', 'Your book was added!');
 
         return redirect('/books');
+    }
+
+    public function getConfirmDelete($book_id) {
+
+        $book = \App\Book::find($book_id);
+
+        return view('books.delete')->with('book', $book);
+    }
+
+    public function getDoDelete($book_id) {
+
+        # Get the book to be deleted
+        $book = \App\Book::find($book_id);
+
+        if(is_null($book)) {
+            \Session::flash('flash_message','Book not found.');
+            return redirect('\books');
+        }
+
+        # First remove any tags associated with this book
+        // delete pivots
+        if($book->tags()) {
+            $book->tags()->detach();
+        }
+
+        # Then delete the book
+        $book->delete();
+
+        # Done
+        \Session::flash('flash_message',$book->title.' was deleted.');
+        return redirect('/books');
+
     }
 
 

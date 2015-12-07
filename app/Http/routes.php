@@ -64,6 +64,9 @@ Route::get('/books/create', [
 */
 Route::group(['middleware' => 'auth'], function() {
 
+    Route::get('/books/confirm-delete/{id?}', 'BookController@getConfirmDelete');
+    Route::get('/books/delete/{id?}', 'BookController@getDoDelete');
+
     Route::get('/books', 'BookController@getIndex');
     Route::get('/books/show/{title?}', 'BookController@getShow');
 
